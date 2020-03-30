@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('facebook_users', {
+    return queryInterface.createTable('debtors', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -11,13 +11,15 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
-        type: Sequelize.STRING,
+      total: {
+        type: Sequelize.DECIMAL,
         allowNull: false,
-        unique: true,
       },
       user_id: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
+        references: { model: 'users', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
         allowNull: false,
       },
       created_at: {
@@ -32,6 +34,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('facebook_users');
+    return queryInterface.dropTable('debtors');
   },
 };

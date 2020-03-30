@@ -1,18 +1,21 @@
 import Sequelize, { Model } from 'sequelize';
 
-class FacebookUser extends Model {
+class Bank extends Model {
   static init(sequelize) {
     super.init(
       {
         name: Sequelize.STRING,
-        email: Sequelize.STRING,
-        user_id: Sequelize.BIGINT,
+        color: Sequelize.STRING,
       },
       { sequelize }
     );
 
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'image_id', as: 'image' });
+  }
 }
 
-export default FacebookUser;
+export default Bank;

@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('banks', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -11,24 +11,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
+      color: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
-      password_hash: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      current_balance: {
-        type: Sequelize.DECIMAL,
-        allowNull: true,
-      },
-      facebook_user: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-      },
-      avatar_id: {
+      image_id: {
         type: Sequelize.INTEGER,
         references: { model: 'files', key: 'id' },
         onUpdate: 'CASCADE',
@@ -47,6 +34,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('banks');
   },
 };

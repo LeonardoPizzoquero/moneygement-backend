@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import FacebookUser from '../models/FacebookUser';
+import User from '../models/User';
 
 class FacebookUserController {
   async store(req, res) {
@@ -9,23 +9,27 @@ class FacebookUserController {
       email: Yup.string()
         .email()
         .required(),
-      user_id: Yup.number().positive().integer().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const userExists = await FacebookUser.findOne({ where: { email: req.body.email }});
+    const userExists = await User.findOne({ where: { email: req.body.email }});
 
-
-    if (userExists) {
-      return res.json({ id: userExists.id, name: userExists.name, email: userExists.email, user_id: userExists.user_id });
+    if (userExists && userExists.facebook_user === true) {
+      return res.json(userExists);
     }
 
-    const { id, name, email, user_id } = await FacebookUser.create(req.body);
+    const newUser = {
+      name: req.body.name,
+      email: req.body.email,
+      facebook_user: true,
+    }
 
-    return res.json({ id, name, email, user_id });
+    const { id, name, email } = await User.create(newUser);
+
+    return res.json({ id, name, email });
   }
 }
 

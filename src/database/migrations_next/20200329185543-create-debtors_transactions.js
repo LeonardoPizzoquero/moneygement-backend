@@ -1,36 +1,35 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('debtors_transactions', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
+      title: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password_hash: {
+      description: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      current_balance: {
+      value: {
         type: Sequelize.DECIMAL,
-        allowNull: true,
+        allowNull: false,
       },
-      facebook_user: {
+      debt: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
+        allowNull: false,
       },
-      avatar_id: {
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      debtor_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'files', key: 'id' },
+        references: { model: 'debtors', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allowNull: true,
@@ -47,6 +46,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('debtors_transactions');
   },
 };

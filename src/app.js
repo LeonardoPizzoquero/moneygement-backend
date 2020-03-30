@@ -2,6 +2,7 @@ import './bootstrap';
 
 import Youch from 'youch';
 import express from 'express';
+import path from 'path';
 import 'express-async-errors';
 import cors from 'cors';
 
@@ -21,6 +22,10 @@ class App {
   middlewares() {
     cors();
     this.server.use(express.json());
+    this.server.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+    );
   }
 
   routes() {
